@@ -1,32 +1,37 @@
 /*!***************************************************************************
 @file    main.cpp
-@author  <author>
-@par     <email/contact info>
+@author  Reverie Wisp
+@par     contact@reveriewisp.com
 @date    <date here>
 
 @brief 
-<you can put a multiline description of your application here...>
+Allows for dragging things into a key-reading console.
 
 @copyright See LICENSE.md
 *****************************************************************************/
-#include <iostream>               // std::cout
+#include <iostream>                // std::cout
 #include <RUtils/RTimekeeper.hpp>  // Rutils::RException
+#include <ConsoleInput/console-input.h>
+
+// Some function to process key presses.
+void ProcessKey(char c)
+{
+  std::cout << "A key was pressed! It was: " << c << '\n';
+}
 
 
 // Application entry point
 int main(int argc, char** argv)
 {
-  // Timing start
-  RUtils::Timekeeper t;
-  t.StartFrame();   
-  
-  // <Some code that does things>
-  for (int i{ 0 }; i < 10; ++i)
-    std::cout << "I'm printed line " << i + 1 << "!" << '\n';
 
-  // Timing end
-  t.EndFrame(); 
-  std::cout << "Printing all that took: " << t.GetLastTimeMS() << "ms\n";
+
+  while (1)
+  {
+    while (int val = KeyHit())
+    {
+      ProcessKey(GetChar());
+    }
+  }
 
   // Normal termination
   return 0;
