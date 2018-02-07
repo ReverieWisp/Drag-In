@@ -30,35 +30,48 @@ void ProcessFilepath(std::string path)
   std::cout << "Woah, a path! It was: " << path << '\n';
 }
 
-// Application entry point
+// Handle the input parsing and separation. This requires 
+// references as inputs for keeping track of keypresses.
+void HandleInput(int &lastCharacter, std::string &buffer)
+{
+  int hit = KeyHit();
+  if (hit)
+    do
+    {
+      lastCharacter = GetChar();
+      buffer += lastCharacter;
+    } while (hit = KeyHit());
+  else
+    if (lastCharacter != NO_INPUT)
+    {
+      if (buffer.size() > 1)
+        ProcessFilepath(buffer);
+      else
+        ProcessKey(lastCharacter);
+
+      lastCharacter = NO_INPUT;
+      buffer.clear();
+    }
+}
+
+// Application entry point! Example usage.
 int main(int argc, char** argv)
 {
-  int last = NO_INPUT;
+  int last_char = NO_INPUT;
   std::string buffer = "";
 
   while (1)
-  {
-    int hit = KeyHit();
-    if (hit)
-      do
-      {
-        last = GetChar();
-        buffer += last;
-      } while (hit = KeyHit());
-    else
-      if (last != NO_INPUT)
-      {
-        if (buffer.size() > 1)
-          ProcessFilepath(buffer);
-        else
-          ProcessKey(last);
-
-        last = NO_INPUT;
-        buffer.clear();
-      }
-  }
+    HandleInput(last_char, buffer);
 }
-      /*
+
+
+
+
+// An earlier idea:
+/*
+  while(1)
+  {
+    int val = KeyHit();
     if (val == NO_INPUT)
     {
       if (buffer.size() > 0)
